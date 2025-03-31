@@ -268,7 +268,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle_back",
-"speed": 5.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
