@@ -18,7 +18,6 @@ public partial class Hearts : PanelContainer
 
 	public override void _Process(double delta)
 	{
-		GD.Print(currentHealth);
 		if(currentHealth != PlayerStats.currentHealth)
 		{
 			currentHealth = PlayerStats.currentHealth;

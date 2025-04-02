@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfr63wprop50i"]
+
+[ext_resource type="Script" path="res://Scenes/Tree/Tree.cs" id="1_ewoc3"]
+[ext_resource type="Texture2D" uid="uid://domhy8k4wx64q" path="res://Assets/Outdoor decoration/Oak_Tree_Small.png" id="2_getjh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8siu"]
+atlas = ExtResource("2_getjh")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_um6ys"]
+atlas = ExtResource("2_getjh")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_700ta"]
+size = Vector2(4, 9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yaiy7"]
+size = Vector2(6, 10)
+
+[node name="Tree" type="Node2D"]
+script = ExtResource("1_ewoc3")
+
+[node name="FullTree" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_c8siu")
+
+[node name="CutTree" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("AtlasTexture_um6ys")
+
+[node name="AreaToCut" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaToCut"]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_700ta")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_yaiy7")
+
+[connection signal="area_entered" from="AreaToCut" to="." method="onAreaToCutEntered"]

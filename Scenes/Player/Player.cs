@@ -14,6 +14,7 @@ public partial class Player : CharacterBody2D
 	private string previousState = "";
 	private bool isAttacking = false;
 	private bool isInvincible = false;
+	private bool isChopping = false;
 	private Timer invincibilityTimer;
 	
 	public override void _Ready()
@@ -36,6 +37,7 @@ public partial class Player : CharacterBody2D
 		Vector2 inputDirection = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		inputDirection = inputDirection.Normalized();
 		isAttacking = Input.IsActionJustPressed("attack");
+		isChopping = Input.IsActionJustPressed("chop");
 		SetAnimation(inputDirection);
 		Velocity = stateMachine.GetCurrentNode() == "Attack" ? Vector2.Zero : inputDirection * Speed;
 	}
@@ -46,7 +48,7 @@ public partial class Player : CharacterBody2D
 		string parameterPath = $"parameters/{targetState}/blend_position";
 		Vector2 blendPosition = inputDirection;
 		
-		if(targetState == "Idle" || targetState == "Attack")
+		if(!(targetState == "Move"))
 			blendPosition = previousDirection;
 			
 		animTree.Set(parameterPath, blendPosition);
@@ -55,8 +57,10 @@ public partial class Player : CharacterBody2D
 
 	public string DetermineState(Vector2 inputDirection)
 	{
-		if (isAttacking)
+		if (isAttacking && !isChopping)
 			return "Attack";
+		if(isChopping && !isAttacking)
+			return "Chop";
 		if (inputDirection != Vector2.Zero)
 			{
 				previousDirection = inputDirection;

@@ -66,6 +66,7 @@ radius = 75.0267
 size = Vector2(13, 21)
 
 [node name="Skeleton" type="CharacterBody2D"]
+position = Vector2(278, 217)
 script = ExtResource("1_22tw0")
 metadata/_edit_group_ = true
 
