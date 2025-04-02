@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dsqn2csgfkj2l"]
+[gd_scene load_steps=36 format=3 uid="uid://dsqn2csgfkj2l"]
 
 [ext_resource type="Texture2D" uid="uid://bl7rqbm6mjhbh" path="res://Assets/Tiles/Beach_Tile.png" id="1_o1vil"]
 [ext_resource type="Texture2D" uid="uid://s556t3m5lqap" path="res://Assets/Outdoor decoration/Bridge_Wood.png" id="2_javfe"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://d1io2uqu6t0ki" path="res://Assets/Tiles/Water_Tile.png" id="15_yradn"]
 [ext_resource type="PackedScene" uid="uid://7vepvgn3deas" path="res://Scenes/Player/Player.tscn" id="16_aa8y6"]
 [ext_resource type="PackedScene" uid="uid://byi74erwn2h3a" path="res://Scenes/HUD/HUD.tscn" id="17_3cwlw"]
+[ext_resource type="PackedScene" uid="uid://bqjnr0l713mpk" path="res://Scenes/Enemy/Skeleton.tscn" id="18_4uw8k"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_fqspn"]
 tile_data = PackedInt32Array(65536, 14, 1, 131072, 14, 2, 196608, 14, 3, 1, 65550, 0, 65537, 65550, 1, 131073, 65550, 2, 196609, 65550, 3, 262145, 65550, 4, 2, 131086, 0, 65538, 131086, 1, 131074, 131086, 2, 196610, 131086, 3, 262146, 131086, 4, 65539, 196622, 1, 131075, 196622, 2, 196611, 196622, 3)
@@ -1035,8 +1036,11 @@ zoom = Vector2(3, 3)
 offset = Vector2(5, 2)
 transform = Transform2D(1, 0, 0, 1, 5, 2)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Borders" type="StaticBody2D" parent="."]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Borders"]
 build_mode = 1
 polygon = PackedVector2Array(0, 288, 448, 288, 448, 0, 0, 0, 0, 264, -8, 264, -8, -8, 456, -8, 456, 296, -8, 296, -8, 264, 0, 264)
+
+[node name="Skeleton" parent="." instance=ExtResource("18_4uw8k")]
+position = Vector2(72, 224)

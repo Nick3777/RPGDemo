@@ -1,0 +1,107 @@
+[gd_scene load_steps=14 format=3 uid="uid://bqjnr0l713mpk"]
+
+[ext_resource type="Script" path="res://Scenes/Enemy/Skeleton.cs" id="1_22tw0"]
+[ext_resource type="Texture2D" uid="uid://ctp1ygscomcdu" path="res://Assets/Enemies/Skeleton.png" id="1_rrvc3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hts0e"]
+atlas = ExtResource("1_rrvc3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ltr2"]
+atlas = ExtResource("1_rrvc3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7n8s"]
+atlas = ExtResource("1_rrvc3")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2rjps"]
+atlas = ExtResource("1_rrvc3")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_um55m"]
+atlas = ExtResource("1_rrvc3")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dgte6"]
+atlas = ExtResource("1_rrvc3")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pep27"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hts0e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ltr2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7n8s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2rjps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_um55m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dgte6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wjonl"]
+size = Vector2(11, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tlic2"]
+radius = 185.003
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rs72y"]
+radius = 75.0267
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3lyq8"]
+size = Vector2(13, 21)
+
+[node name="Skeleton" type="CharacterBody2D"]
+script = ExtResource("1_22tw0")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_pep27")
+animation = &"idle"
+frame = 4
+frame_progress = 0.629259
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 4)
+shape = SubResource("RectangleShape2D_wjonl")
+
+[node name="WanderArea" type="Area2D" parent="."]
+top_level = true
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WanderArea"]
+shape = SubResource("CircleShape2D_tlic2")
+
+[node name="ChasingArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChasingArea"]
+shape = SubResource("CircleShape2D_rs72y")
+debug_color = Color(1, 0.0823529, 0, 0.419608)
+
+[node name="BodyHitbox" type="Area2D" parent="." groups=["EnemyHitbox"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyHitbox"]
+position = Vector2(0.5, -1.5)
+shape = SubResource("RectangleShape2D_3lyq8")
+debug_color = Color(2.88785e-06, 0.634298, 0.430649, 0.42)
+
+[node name="PauseTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="ChasingArea" to="." method="onChasingAreaBodyEntered"]
+[connection signal="body_exited" from="ChasingArea" to="." method="onChasingAreaBodyExited"]
+[connection signal="timeout" from="PauseTimer" to="." method="onPauseTimeout"]
