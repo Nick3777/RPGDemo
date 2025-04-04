@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public partial class Player : CharacterBody2D
 {
@@ -7,18 +8,24 @@ public partial class Player : CharacterBody2D
 	public int Speed { get; set; } = 100;
 	[Export]
 	public float KnockbackStrength = 200f;
+	string[] actions = { "Attack", "Chop", "pesca" };
+	private PlayerActions playerActions;
 	
 	private AnimationTree animTree;
 	private AnimationNodeStateMachinePlayback stateMachine;
 	private Vector2 previousDirection = Vector2.Zero;
 	private string previousState = "";
+	private string currentNode = "";
 	private bool isAttacking = false;
 	private bool isInvincible = false;
 	private bool isChopping = false;
+	private bool isDoingAction = false;
 	private Timer invincibilityTimer;
 	
+
 	public override void _Ready()
 	{
+		playerActions = new PlayerActions();
 		animTree = GetNode<AnimationTree>("AnimationTree");
 		stateMachine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");
 		invincibilityTimer = GetNode<Timer>("InvincibilityTimer");
@@ -36,10 +43,9 @@ public partial class Player : CharacterBody2D
 	{
 		Vector2 inputDirection = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		inputDirection = inputDirection.Normalized();
-		isAttacking = Input.IsActionJustPressed("attack");
-		isChopping = Input.IsActionJustPressed("chop");
 		SetAnimation(inputDirection);
-		Velocity = stateMachine.GetCurrentNode() == "Attack" ? Vector2.Zero : inputDirection * Speed;
+		ActionDetection(inputDirection);
+		Velocity = isDoingAction ? Vector2.Zero : inputDirection * Speed;
 	}
 	
 	public void SetAnimation(Vector2 inputDirection)
@@ -56,11 +62,12 @@ public partial class Player : CharacterBody2D
 	}
 
 	public string DetermineState(Vector2 inputDirection)
-	{
-		if (isAttacking && !isChopping)
+	{	
+		if(Input.IsActionJustPressed("attack"))
 			return "Attack";
-		if(isChopping && !isAttacking)
+		if(Input.IsActionJustPressed("chop"))
 			return "Chop";
+
 		if (inputDirection != Vector2.Zero)
 			{
 				previousDirection = inputDirection;
@@ -68,23 +75,41 @@ public partial class Player : CharacterBody2D
 			}			 
 		return "Idle";
 	}
+	
+	private void ActionDetection(Vector2 inputDirection)
+	{
+		currentNode = stateMachine.GetCurrentNode();
+		if(actions.Contains(currentNode))
+			isDoingAction = true;
+		else
+			isDoingAction = false;	
+	}
 //endregion
 
+//region HandleDmg&Attack
 	private void TakeEnemyDmg(string enemy, Vector2 enemyPosition)
 	{
 		if (isInvincible) return;
 			
-		PlayerStats.currentHealth -= EnemiesDamage.enemyDamage[enemy];
-		GD.Print(PlayerStats.currentHealth);		
+		PlayerStats.currentHealth -= EnemiesDamage.enemyDamage[enemy];	
 		Vector2 knockbackDirection = (GlobalPosition - enemyPosition).Normalized();
 		Velocity = knockbackDirection * KnockbackStrength;
 		
-		if(PlayerStats.currentHealth == 0) this.QueueFree();
+		if(PlayerStats.currentHealth == 0) 
+			Death();
 		
 		isInvincible = true;
 		invincibilityTimer.Start();
 	}
 	
+	private void Death()
+	{
+		this.QueueFree();
+		PlayerStats.isDead = true;		
+	}
+//endregion
+	
+//region Signals
 	private void onHurtboxAreaEntered(Area2D area)
 	{
 		if(area.IsInGroup("EnemyHitbox"))
@@ -99,7 +124,23 @@ public partial class Player : CharacterBody2D
 	{
 		isInvincible = false;
 	}
+	
+	private void onSwordAreaEntered(Node2D body)
+	{
+		if(body.GetChild("CollisionShape2D").IsInGroup("EnemyHurtbox"))
+			playerActions.Attack(body);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//endregion
 }
-
-
-

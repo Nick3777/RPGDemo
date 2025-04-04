@@ -27,8 +27,6 @@ public partial class Hearts : PanelContainer
 	
 	private void UpdateHearts()
 	{
-		
-		GD.Print("currentHealthDamn");
 		foreach (Node child in heartsContainer.GetChildren())
 		{
 			heartsContainer.RemoveChild(child);

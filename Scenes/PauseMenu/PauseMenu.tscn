@@ -1,0 +1,105 @@
+[gd_scene load_steps=3 format=3 uid="uid://dv7eyntxhtk6i"]
+
+[ext_resource type="Script" path="res://Scenes/PauseMenu/PauseMenu.cs" id="1_dbmcq"]
+[ext_resource type="Texture2D" uid="uid://csp7ulbr7lrar" path="res://Assets/MenuPause/arrowMenu.png" id="2_71ld7"]
+
+[node name="PauseMenu" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_dbmcq")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+custom_minimum_size = Vector2(200, 200)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -324.0
+offset_right = 320.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Continue" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../MainMenu")
+focus_neighbor_bottom = NodePath("../Save")
+focus_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/Continue"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+text = "Continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/VBoxContainer/Continue"]
+position = Vector2(209, 0)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_71ld7")
+centered = false
+offset = Vector2(-450, 0)
+
+[node name="Save" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Continue")
+focus_neighbor_bottom = NodePath("../MainMenu")
+focus_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/Save"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+text = "Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/VBoxContainer/Save"]
+position = Vector2(209, 0)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_71ld7")
+centered = false
+offset = Vector2(-450, 0)
+
+[node name="MainMenu" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Save")
+focus_neighbor_bottom = NodePath("../Continue")
+focus_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/MainMenu"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/VBoxContainer/MainMenu"]
+position = Vector2(209, 0)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_71ld7")
+centered = false
+offset = Vector2(-450, 0)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.172549, 0.203922, 1, 0.309804)
+
+[connection signal="focus_exited" from="CanvasLayer/VBoxContainer/Continue" to="." method="onContinueFocusExited"]
+[connection signal="focus_exited" from="CanvasLayer/VBoxContainer/Save" to="." method="onSaveFocusExited"]
+[connection signal="focus_exited" from="CanvasLayer/VBoxContainer/MainMenu" to="." method="onStartFocusExited"]

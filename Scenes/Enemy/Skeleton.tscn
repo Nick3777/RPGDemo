@@ -76,7 +76,7 @@ animation = &"idle"
 frame = 4
 frame_progress = 0.629259
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["EnemyHurtbox"]]
 position = Vector2(0.5, 4)
 shape = SubResource("RectangleShape2D_wjonl")
 

@@ -6,4 +6,5 @@ public partial class PlayerStats : Node
 {
 	public static int maxHealth = 5;
 	public static int currentHealth = maxHealth;
+	public static bool isDead = false;
 }

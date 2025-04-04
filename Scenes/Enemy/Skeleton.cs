@@ -5,6 +5,7 @@ public partial class Skeleton : CharacterBody2D
 {
 	[Export]
 	public int Speed { get; set; } = 20;
+	public int health;
 	
 	private Area2D wanderArea;
 	private Vector2 wanderTarget;
@@ -17,6 +18,7 @@ public partial class Skeleton : CharacterBody2D
 	
 	public override void _Ready()
 	{
+		health = 3;
 		wanderArea = GetNode<Area2D>("WanderArea");
 		pauseTimer = GetNode<Timer>("PauseTimer");
 		wanderArea.GlobalPosition = GlobalPosition;
@@ -26,6 +28,9 @@ public partial class Skeleton : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{			
+		GD.Print(health);
+		if(health <= 0)
+			Death();
 		if(GetChasingStatus())
 			HandleChasingState();
 		else
@@ -100,5 +105,9 @@ public partial class Skeleton : CharacterBody2D
 			isChasing = false;
 	}
 //endregion
+
+	private void Death(){
+		this.QueueFree();
+	}
 
 }
