@@ -5,9 +5,9 @@ using System;
 
 public partial class PlayerActions : Node
 {
-	public void Attack(Node2D body)
+	public void Attack(Area2D area)
 	{
-		Skeleton target = (Skeleton)body;
+		Skeleton target = (Skeleton)area.GetParent();
 		target.health -= 1;
 	}
 	

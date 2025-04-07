@@ -103,6 +103,8 @@ debug_color = Color(2.88785e-06, 0.634298, 0.430649, 0.42)
 [node name="PauseTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
 [connection signal="body_entered" from="ChasingArea" to="." method="onChasingAreaBodyEntered"]
 [connection signal="body_exited" from="ChasingArea" to="." method="onChasingAreaBodyExited"]
 [connection signal="timeout" from="PauseTimer" to="." method="onPauseTimeout"]

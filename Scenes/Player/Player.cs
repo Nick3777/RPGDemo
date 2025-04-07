@@ -7,8 +7,8 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public int Speed { get; set; } = 100;
 	[Export]
-	public float KnockbackStrength = 200f;
-	string[] actions = { "Attack", "Chop", "pesca" };
+	public float KnockbackStrength = 100f;
+	string[] actions = { "Attack", "Chop", "Death" };
 	private PlayerActions playerActions;
 	
 	private AnimationTree animTree;
@@ -59,10 +59,14 @@ public partial class Player : CharacterBody2D
 			
 		animTree.Set(parameterPath, blendPosition);
 		stateMachine.Travel(targetState);
+		if(targetState == "Death")
+			Death();
 	}
 
 	public string DetermineState(Vector2 inputDirection)
 	{	
+		if(PlayerStats.currentHealth <= 0)
+			return "Death";
 		if(Input.IsActionJustPressed("attack"))
 			return "Attack";
 		if(Input.IsActionJustPressed("chop"))
@@ -95,7 +99,7 @@ public partial class Player : CharacterBody2D
 		Vector2 knockbackDirection = (GlobalPosition - enemyPosition).Normalized();
 		Velocity = knockbackDirection * KnockbackStrength;
 		
-		if(PlayerStats.currentHealth == 0) 
+		if(PlayerStats.currentHealth <= 0) 
 			Death();
 		
 		isInvincible = true;
@@ -103,9 +107,14 @@ public partial class Player : CharacterBody2D
 	}
 	
 	private void Death()
-	{
-		this.QueueFree();
-		PlayerStats.isDead = true;		
+	{	
+		this.CollisionLayer = 0;
+		this.CollisionMask = 0;
+		PlayerStats.isDead = true;	
+			
+		if(stateMachine.GetCurrentNode() == "End")
+			this.QueueFree();
+			
 	}
 //endregion
 	
@@ -125,20 +134,11 @@ public partial class Player : CharacterBody2D
 		isInvincible = false;
 	}
 	
-	private void onSwordAreaEntered(Node2D body)
+	private void onSwordAreaEntered(Area2D area)
 	{
-		if(body.GetChild("CollisionShape2D").IsInGroup("EnemyHurtbox"))
-			playerActions.Attack(body);
+		if(area.IsInGroup("EnemyHitbox"))
+			playerActions.Attack(area);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

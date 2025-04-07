@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://dsqn2csgfkj2l"]
+[gd_scene load_steps=40 format=3 uid="uid://dsqn2csgfkj2l"]
 
 [ext_resource type="PackedScene" uid="uid://dfr63wprop50i" path="res://Scenes/Tree/Tree.tscn" id="1_fxrhq"]
 [ext_resource type="Script" path="res://Scenes/World/World.cs" id="1_i127o"]
@@ -991,6 +991,13 @@ sources/16 = SubResource("TileSetAtlasSource_1uy8k")
 sources/0 = SubResource("TileSetScenesCollectionSource_thk1w")
 pattern_0 = SubResource("TileMapPattern_fqspn")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_magnt"]
+vertices = PackedVector2Array(70, -49, 70, 78, -54, 78, -54, -90)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(80, -56, 80, 88, -64, 88, -64, -104)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+cell_size = 16.0
+
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_i127o")
@@ -1014,10 +1021,15 @@ y_sort_enabled = true
 position = Vector2(272, 128)
 metadata/_edit_group_ = true
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Skeleton" parent="." instance=ExtResource("18_4uw8k")]
+position = Vector2(72, 224)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(272, 128)
 zoom = Vector2(4, 4)
 
 [node name="HUD" parent="." instance=ExtResource("17_3cwlw")]
+visible = false
 offset = Vector2(5, 2)
 transform = Transform2D(1, 0, 0, 1, 5, 2)
 
@@ -1027,5 +1039,7 @@ transform = Transform2D(1, 0, 0, 1, 5, 2)
 build_mode = 1
 polygon = PackedVector2Array(0, 288, 448, 288, 448, 0, 0, 0, 0, 264, -8, 264, -8, -8, 456, -8, 456, 296, -8, 296, -8, 264, 0, 264)
 
-[node name="Skeleton" parent="." instance=ExtResource("18_4uw8k")]
-position = Vector2(72, 224)
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+modulate = Color(1, 1, 0.854902, 0.172549)
+position = Vector2(64, 200)
+navigation_polygon = SubResource("NavigationPolygon_magnt")
