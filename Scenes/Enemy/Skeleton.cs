@@ -28,7 +28,7 @@ public partial class Skeleton : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{			
-		GD.Print(health);
+		//GD.Print(health);
 		if(health <= 0)
 			Death();
 		if(GetChasingStatus())

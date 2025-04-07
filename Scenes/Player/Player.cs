@@ -125,10 +125,10 @@ public partial class Player : CharacterBody2D
 		isInvincible = false;
 	}
 	
-	private void onSwordAreaEntered(Node2D body)
+	private void onSwordAreaEntered(Area2D enemyHurtbox)
 	{
-		if(body.GetChild("CollisionShape2D").IsInGroup("EnemyHurtbox"))
-			playerActions.Attack(body);
+		if(enemyHurtbox.IsInGroup("EnemyHitbox"))
+			playerActions.Attack(enemyHurtbox);
 	}
 	
 	

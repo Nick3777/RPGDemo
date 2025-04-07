@@ -408,15 +408,15 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_34241"]
-size = Vector2(12, 8)
+size = Vector2(10, 8)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ko8k"]
 radius = 4.99983
 height = 31.9938
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_suin6"]
-radius = 5.0
-height = 18.0
+radius = 7.0
+height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nuujw"]
 radius = 4.0
@@ -1675,14 +1675,12 @@ animation = &"walk_front"
 flip_h = true
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_34241")
 
 [node name="Hitbox" type="Area2D" parent="."]
 
 [node name="Sword" type="CollisionShape2D" parent="Hitbox"]
-visible = false
 position = Vector2(-7, -4)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_4ko8k")
@@ -1691,7 +1689,6 @@ disabled = true
 [node name="Hurtbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(0, -2)
 shape = SubResource("CapsuleShape2D_suin6")
 debug_color = Color(0.999112, 0, 0.123253, 0.42)
 
@@ -1718,6 +1715,6 @@ parameters/Walk/blend_position = Vector2(-0.121807, 0.342373)
 [node name="InvincibilityTimer" type="Timer" parent="."]
 wait_time = 0.3
 
-[connection signal="body_entered" from="Hitbox" to="." method="onSwordAreaEntered"]
+[connection signal="area_entered" from="Hitbox" to="." method="onSwordAreaEntered"]
 [connection signal="area_entered" from="Hurtbox" to="." method="onHurtboxAreaEntered"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="onInvincibilityTimerTimeout"]
