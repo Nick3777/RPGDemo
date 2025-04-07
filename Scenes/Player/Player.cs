@@ -137,6 +137,6 @@ public partial class Player : CharacterBody2D
 	{
 		if(enemyHurtbox.IsInGroup("EnemyHitbox"))
 			playerActions.Attack(enemyHurtbox);
-
+	}
 //endregion
 }

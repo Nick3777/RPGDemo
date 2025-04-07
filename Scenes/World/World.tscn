@@ -1040,6 +1040,7 @@ build_mode = 1
 polygon = PackedVector2Array(0, 288, 448, 288, 448, 0, 0, 0, 0, 264, -8, 264, -8, -8, 456, -8, 456, 296, -8, 296, -8, 264, 0, 264)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
 modulate = Color(1, 1, 0.854902, 0.172549)
 position = Vector2(64, 200)
 navigation_polygon = SubResource("NavigationPolygon_magnt")
